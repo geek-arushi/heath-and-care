@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "proImg": "/product/1.jpg",
+    "title": "Bp Machine",
+    "slug":"Bp-Machine",
+    "price": "800.00",
+    "delPrice": "912.00",
+    "brand":"Gucci",
+    "stock":"Stock out",
+    "size":"Xl"
+  },
+  {
+    "id": 2,
+    "proImg": "/product/2.jpg",
+    "title": "Digital Bp Machine",
+    "slug":"Digital-Bp-Machine",
+    "price": "800.00",
+    "delPrice": "$750.00",
+    "brand":"Gucci",
+    "stock":"Stock in",
+    "size":"XXl"
+  },
+  {
+    "id": 3,
+    "proImg": "/product/3.jpg",
+    "title": "Thermometer NC-150",
+    "slug":"Thermometer-NC-150",
+    "price": "100.00",
+    "delPrice": "150.00",
+    "brand":"Gucci",
+    "stock":"Stock out",
+    "size":"L"
+  },
+  {
+    "id": 4,
+    "proImg": "/product/4.jpg",
+    "title": "Digital Oximeter",
+    "slug":"Digital-Oximeter",
+    "price": "360.00",
+    "delPrice": "$320.00",
+    "brand":"Gucci",
+    "stock":"Stock in",
+    "size":"M"
+  },
+  {
+    "id": 5,
+    "proImg": "/product/5.jpg",
+    "title": "RYCOM Thermometer JXB-178",
+    "slug":"RYCOM-Thermometer-JXB-178",
+    "price": "125.00",
+    "delPrice": "130.00",
+    "brand":"Gucci",
+    "stock":"Stock out",
+    "size":"XXl"
+  },
+  {
+    "id": 6,
+    "proImg": "/product/6.jpg",
+    "title": "Glucometer Machine",
+    "slug":"Glucometer-Machine",
+    "price": "548.00",
+    "delPrice": "600.00",
+    "brand":"Gucci",
+    "stock":"Stock in",
+    "size":"Xl"
+  }
+]
