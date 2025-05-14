@@ -32,32 +32,29 @@ exports.register = async (req, res, next) => {
 // @route   POST /api/auth/login
 // @access  Public
 exports.login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    // Validate email & password
-    if (!email || !password) {
-      return res.status(400).json({ success: false, error: 'Please provide an email and password' });
-    }
-
-    // Check for user
-    const user = await User.findOne({ email }).select('+password');
-
-    if (!user) {
-      return res.status(401).json({ success: false, error: 'Invalid credentials' });
-    }
-
-    // Check if password matches
-    const isMatch = await user.matchPassword(password);
-
-    if (!isMatch) {
-      return res.status(401).json({ success: false, error: 'Invalid credentials' });
-    }
-
-    sendTokenResponse(user, 200, res);
-  } catch (error) {
-    next(error);
+  // 1) Check if email and password exist
+  if (!email || !password) {
+    return next(new Error('Please provide email and password!'));
   }
+
+  // 2) Check if user exists && password is correct
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new Error('Incorrect email or password'));
+  }
+
+  // 3) If everything ok, send token to client
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN
+  });
+
+  res.status(200).json({
+    status: 'success',
+    token
+  });
 };
 
 // @desc    Get current logged in user
