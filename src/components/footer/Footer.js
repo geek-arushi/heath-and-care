@@ -118,6 +118,7 @@ const Footer = (props) => {
                         <div className="col col-xs-12">
                             <p className="copyright">Heath & Care &copy;<span>2025</span>
                                 <span className="copyright-icon">|</span> All Rights Reserved.
+                                <span className="copyright-icon">|</span> <Link onClick={ClickHandler} to="/admin/dashboard">Admin Dashboard</Link>
                             </p>
                         </div>
                     </div>
