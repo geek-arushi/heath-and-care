@@ -17,6 +17,15 @@ import OrderRecived from '../OrderRecived/OrderRecived';
 import ContactPage from '../ContactPage/ContactPage';
 import AppoinmentPage from '../AppoinmentPage/AppoinmentPage';
 import ErrorPage from '../ErrorPage/ErrorPage';
+import Login from '../../components/Login/Login';
+import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute';
+
+// Admin Dashboard Pages
+import AdminDashboard from '../AdminDashboard/AdminDashboard';
+import ProductManagement from '../AdminDashboard/ProductManagement';
+import ServiceManagement from '../AdminDashboard/ServiceManagement';
+import TeamManagement from '../AdminDashboard/TeamManagement';
+import OrderManagement from '../AdminDashboard/OrderManagement';
 
 const AllRoute = () => {
 
@@ -42,6 +51,14 @@ const AllRoute = () => {
           <Route path='/wishlist' element={<WishlistPage />} />
           <Route path='/checkout' element={<CheckoutPage />} />
           <Route path='/order_received' element={<OrderRecived />} />
+          <Route path='/login' element={<Login />} />
+          
+          {/* Admin Dashboard Routes */}
+          <Route path='/admin/dashboard' element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          <Route path='/admin/products' element={<ProtectedRoute><ProductManagement /></ProtectedRoute>} />
+          <Route path='/admin/services' element={<ProtectedRoute><ServiceManagement /></ProtectedRoute>} />
+          <Route path='/admin/team' element={<ProtectedRoute><TeamManagement /></ProtectedRoute>} />
+          <Route path='/admin/orders' element={<ProtectedRoute><OrderManagement /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
 

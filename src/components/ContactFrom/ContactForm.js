@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import SimpleReactValidator from 'simple-react-validator';
+import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const ContactForm = () => {
 
@@ -23,17 +25,24 @@ const ContactForm = () => {
         }
     };
 
-    const submitHandler = e => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         if (validator.allValid()) {
-            validator.hideMessages();
-            setForms({
-                name: '',
-                email: '',
-                subject: '',
-                phone: '',
-                message: ''
-            })
+            try {
+                await axios.post(`${API_URL}/contact`, forms);
+                validator.hideMessages();
+                setForms({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    phone: '',
+                    message: ''
+                });
+                // Show success message
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                // Show error message
+            }
         } else {
             validator.showMessages();
         }
