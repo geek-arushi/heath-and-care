@@ -6,6 +6,7 @@ import uimg1 from '../images/depertment-single/urology/1.jpg'
 import uimg2 from '../images/depertment-single/urology/2.jpg'
 import uimg3 from '../images/depertment-single/urology/3.jpg'
 
+// और भी कई इमेज इम्पोर्ट्स...
 import aimg1 from '../images/depertment-single/allergy/1.jpg'
 import aimg2 from '../images/depertment-single/allergy/2.jpg'
 import aimg3 from '../images/depertment-single/allergy/3.jpg'

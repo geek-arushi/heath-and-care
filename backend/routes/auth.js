@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { register, login, logout, getMe, updateDetails, updatePassword } = require('../controllers/authController');
+const authController = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 
-router.post('/register', register);
-router.post('/login', login);
-router.get('/logout', logout);
-router.get('/me', protect, getMe);
-router.put('/updatedetails', protect, updateDetails);
-router.put('/updatepassword', protect, updatePassword);
+// Make sure all route handlers are properly defined
+router.post('/register', authController.register);
+router.post('/login', authController.login);
+router.get('/me', protect, authController.getMe);
+router.get('/logout', authController.logout);
+
+// Comment out or remove these routes until they are implemented
+// router.put('/updatedetails', protect, updateDetails);
+// router.put('/updatepassword', protect, updatePassword);
 
 module.exports = router;

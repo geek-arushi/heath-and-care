@@ -32,29 +32,39 @@ exports.register = async (req, res, next) => {
 // @route   POST /api/auth/login
 // @access  Public
 exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  // 1) Check if email and password exist
-  if (!email || !password) {
-    return next(new Error('Please provide email and password!'));
+    // 1) Check if email and password exist
+    if (!email || !password) {
+      return res.status(400).json({ success: false, error: 'Please provide email and password!' });
+    }
+
+    // 2) Check if user exists && password is correct
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!user || !(await user.correctPassword(password, user.password))) {
+      return res.status(401).json({ success: false, error: 'Incorrect email or password' });
+    }
+
+    // 3) If everything ok, send token to client
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN || '30d'
+    });
+
+    // Send response with consistent format
+    res.status(200).json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
-
-  // 2) Check if user exists && password is correct
-  const user = await User.findOne({ email }).select('+password');
-
-  if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new Error('Incorrect email or password'));
-  }
-
-  // 3) If everything ok, send token to client
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
-  });
-
-  res.status(200).json({
-    status: 'success',
-    token
-  });
 };
 
 // @desc    Get current logged in user
@@ -84,10 +94,12 @@ exports.logout = async (req, res, next) => {
 // Helper function to get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
   // Create token
-  const token = user.getSignedJwtToken();
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || '30d'
+  });
 
   const options = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + (process.env.JWT_COOKIE_EXPIRE || 30) * 24 * 60 * 60 * 1000),
     httpOnly: true
   };
 

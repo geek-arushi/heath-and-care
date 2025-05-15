@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { authService } from '../../api/apiService';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import './Login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../api/apiService";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import "./Login.css";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: ''
+    email: "arushi@developer.com",
+    password: "arushi1234",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ const Login = () => {
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -26,12 +26,18 @@ const Login = () => {
     setLoading(true);
     setError(null);
 
+    // In the handleSubmit function
     try {
       const response = await authService.login(credentials);
-      localStorage.setItem('token', response.data.token);
-      navigate('/admin/dashboard');
+      console.log("Login response:", response); // Add this for debugging
+      localStorage.setItem("token", response.token);
+      navigate("/admin/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      console.error("Login error:", err);
+      setError(
+        err.response?.data?.error ||
+          "Login failed. Please check your credentials."
+      );
     } finally {
       setLoading(false);
     }
@@ -66,7 +72,7 @@ const Login = () => {
             />
           </div>
           <button type="submit" className="theme-btn" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         {loading && <LoadingSpinner />}
